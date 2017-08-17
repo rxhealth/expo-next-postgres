@@ -54,7 +54,7 @@ class PostScreen extends React.Component {
     if (
       isAuthenticated &&
       this.props.viewer &&
-      this.state.post.User.id === this.props.viewer.id
+      this.state.post.user.id === this.props.viewer.id
     ) {
       this.props.navigation.setParams({
         handleDelete: () => this._handleDeletePost(this.state.post.id),
@@ -72,7 +72,7 @@ class PostScreen extends React.Component {
     const isYou =
       nextProps.isAuthenticated &&
       nextProps.viewer &&
-      this.state.post.User.id === nextProps.viewer.id;
+      this.state.post.user.id === nextProps.viewer.id;
     const handleDelete = nextProps.isAuthenticated && isYou
       ? () => this._handleDeletePost(this.state.post.id)
       : undefined;
@@ -141,7 +141,7 @@ class PostScreen extends React.Component {
       return <ScrollView style={styles.container} />;
     }
 
-    const isYou = isAuthenticated && post.User.id === this.props.viewer.id;
+    const isYou = isAuthenticated && post.user.id === this.props.viewer.id;
     const refreshControl = (
       <RefreshControl refreshing={refreshing} onRefresh={this._handleGetData} />
     );
@@ -155,7 +155,7 @@ class PostScreen extends React.Component {
           <Text style={styles.meta}>
             by
             {' '}
-            <Text style={styles.bold}>{post.User.username}</Text>
+            <Text style={styles.bold}>{post.user.username}</Text>
             {' '}
             written on
             {' '}
@@ -170,21 +170,25 @@ class PostScreen extends React.Component {
         {post.comments.length
           ? <View>
               {post.comments
-                ? post.comments.map(c => {
-                    const isYours =
-                      isAuthenticated && c.User.id === this.props.viewer.id;
+                ? post.comments
+                    .filter(c => {
+                      return !c.commentId;
+                    })
+                    .map(c => {
+                      const isYours =
+                        isAuthenticated && c.User.id === this.props.viewer.id;
 
-                    return (
-                      <CommentListItem
-                        key={c.id}
-                        isYours={isYours}
-                        comment={c}
-                        navigation={this.props.navigation}
-                        onRefresh={this._handleGetData}
-                        isOnPost
-                      />
-                    );
-                  })
+                      return (
+                        <CommentListItem
+                          key={c.id}
+                          isYours={isYours}
+                          comment={c}
+                          navigation={this.props.navigation}
+                          onRefresh={this._handleGetData}
+                          isOnPost
+                        />
+                      );
+                    })
                 : undefined}
             </View>
           : undefined}

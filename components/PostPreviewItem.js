@@ -27,7 +27,7 @@ export default class PostPreviewItem extends React.Component {
           {' '}
           by
           {' '}
-          <Text style={styles.bold}>{post.User.username}</Text>
+          <Text style={styles.bold}>{post.user.username}</Text>
         </Text>
         <Text style={styles.content}>
           {Strings.elide(

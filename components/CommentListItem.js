@@ -73,7 +73,7 @@ export default class CommentListItem extends React.PureComponent {
           <Text style={styles.lockup}>
             💬 by
             {' '}
-            <Text style={styles.bold}>{comment.User.username}</Text>
+            <Text style={styles.bold}>{comment.user.username}</Text>
             {' '}
             written on
             {' '}
@@ -82,7 +82,7 @@ export default class CommentListItem extends React.PureComponent {
           <Text style={styles.response}>
             📮 in response to
             {' '}
-            <Text style={styles.bold}>{comment.Post.title}</Text>
+            <Text style={styles.bold}>{comment.post.title}</Text>
           </Text>
         </View>
       </SwipeOut>
