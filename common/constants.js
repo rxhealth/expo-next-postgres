@@ -1,6 +1,6 @@
 export const routes = {
-  api: 'https://guarded-coast-67601.herokuapp.com/api',
-  base: 'https://guarded-coast-67601.herokuapp.com',
+  api: 'https://next-postgres.herokuapp.com/api',
+  base: 'https://next-postgres.herokuapp.com',
 };
 
 export const colors = {

@@ -1,7 +1,7 @@
 {
   "name": "expo-next-postgres",
   "version": "0.0.0",
-  "description": "An expo project that speaks to a NextJS / Postgres setup at https://guarded-coast-67601.herokuapp.com",
+  "description": "An expo project that speaks to a NextJS / Postgres setup at https://next-postgres.herokuapp.com",
   "author": null,
   "license": "",
   "main": "node_modules/expo/AppEntry.js",
