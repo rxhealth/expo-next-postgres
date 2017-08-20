@@ -40,14 +40,12 @@ class SignUpScreen extends React.Component {
     Keyboard.dismiss();
 
     this.props.dispatch(
-      Actions.signUp({
-        data: {
-          username: this.state.signup.username,
-          password: this.state.signup.password,
-          confirm: this.state.signup.confirm,
-        },
-        navigation: this.props.navigation,
-        onFailure: () => {
+      Actions.requestSignup({
+        username: this.state.signup.username,
+        password: this.state.signup.password,
+        verify: this.state.signup.confirm,
+        isNative: true,
+        onNativeFailure: () => {
           this.setState({
             error: 'This is a placeholder error message that will be replaced with a real error message someday. You should just make sure your fields all make sense.',
           });

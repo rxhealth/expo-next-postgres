@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as HTTP from '../common/http';
 
 const mapStateToAuthProps = state => {
-  return { viewer: state.viewer };
+  return { viewer: state.viewer, isAuthenticated: state.isAuthenticated };
 };
 
 // TODO: You could add session management code here.
@@ -16,12 +16,12 @@ export const withAuth = options => TargetComponent => {
     };
 
     componentWillReceiveProps(nextProps) {
-      if (nextProps.viewer && this.state.isAuthenticated) {
+      if (nextProps.isAuthenticated && this.state.isAuthenticated) {
         return;
       }
 
       this.setState({
-        isAuthenticated: !!nextProps.viewer,
+        isAuthenticated: nextProps.isAuthenticated,
       });
     }
 

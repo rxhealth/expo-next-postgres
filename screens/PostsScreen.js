@@ -32,7 +32,7 @@ export default class PostsScreen extends React.Component {
       refreshing: true,
     });
 
-    const response = await HTTP.posts();
+    const response = await HTTP.getAllPosts();
     const posts = await response.json();
 
     this.setState({

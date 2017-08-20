@@ -39,13 +39,11 @@ class LogInScreen extends React.Component {
     Keyboard.dismiss();
 
     this.props.dispatch(
-      Actions.logIn({
-        data: {
-          username: this.state.login.username,
-          password: this.state.login.password,
-        },
-        navigation: this.props.navigation,
-        onFailure: () => {
+      Actions.requestLogin({
+        username: this.state.login.username,
+        password: this.state.login.password,
+        isNative: true,
+        onNativeFailure: () => {
           this.setState({
             error: 'This is a placeholder error message that will be replaced with a real error message someday. You should just make sure your fields all make sense.',
           });

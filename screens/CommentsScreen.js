@@ -35,7 +35,7 @@ class CommentsScreen extends React.Component {
       refreshing: true,
     });
 
-    const response = await HTTP.comments();
+    const response = await HTTP.getAllComments();
     const comments = await response.json();
 
     this.setState({
@@ -55,7 +55,7 @@ class CommentsScreen extends React.Component {
     return (
       <ScrollView style={styles.container} refreshControl={refreshControl}>
         {comments.map((c, index) => {
-          const isYours = isAuthenticated && c.User.id === viewer.id;
+          const isYours = isAuthenticated && c.user.id === viewer.id;
           const isLast = index === comments.length - 1;
 
           return (

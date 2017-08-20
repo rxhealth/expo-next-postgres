@@ -1,47 +1,60 @@
-import * as Constants from '../common/constants';
-
 const requestHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
 };
 
-export const postById = ({ id }) => {
-  return fetch(`${Constants.routes.api}/posts/${id}`);
+const ENV = process.env.NODE_ENV || 'development';
+const SERVER_PATH = ENV === 'development'
+  ? 'https://7b85987e.ngrok.io'
+  : 'https://next-postgres.herokuapp.com';
+
+export const getAllComments = () => {
+  const options = {
+    method: 'GET',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/comments`, options);
 };
 
-export const posts = () => {
-  return fetch(`${Constants.routes.api}/posts`);
-};
-
-export const postPublish = ({ content, title }) => {
+export const saveComment = ({ postId, content }) => {
   const options = {
     method: 'POST',
-    credentials: 'include',
     headers: requestHeaders,
-    body: JSON.stringify({
-      content,
-      title,
-    }),
+    credentials: 'include',
+    body: JSON.stringify({ postId, content }),
   };
 
-  return fetch(`${Constants.routes.api}/posts`, options);
+  return fetch(`${SERVER_PATH}/api/comments`, options);
 };
 
-export const postDelete = ({ postId }) => {
+export const saveReply = ({ postId, commentId, content }) => {
   const options = {
-    method: 'DELETE',
+    method: 'POST',
     headers: requestHeaders,
     credentials: 'include',
+    body: JSON.stringify({ postId, commentId, content }),
   };
 
-  return fetch(`${Constants.routes.api}/posts/${postId}`, options);
+  return fetch(`${SERVER_PATH}/api/comments`, options);
 };
 
-export const comments = () => {
-  return fetch(`${Constants.routes.api}/comments`);
+export const updateComment = ({ postId, commentId, content }) => {
+  const options = {
+    method: 'PUT',
+    headers: requestHeaders,
+    credentials: 'include',
+    body: JSON.stringify({ commentId, content }),
+  };
+
+  return fetch(
+    `${SERVER_PATH}/api/posts/${postId}/comments/${commentId}`,
+    options
+  );
 };
 
-export const commentDelete = ({ commentId, postId }) => {
+export const deleteComment = ({ postId, commentId }) => {
   const options = {
     method: 'DELETE',
     headers: requestHeaders,
@@ -49,36 +62,105 @@ export const commentDelete = ({ commentId, postId }) => {
   };
 
   return fetch(
-    `${Constants.routes.api}/posts/${postId}/comments/${commentId}`,
+    `${SERVER_PATH}/api/posts/${postId}/comments/${commentId}`,
     options
   );
 };
 
-export const commentPublish = ({ postId, content }) => {
+export const getAllPosts = () => {
+  const options = {
+    method: 'GET',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/posts`, options);
+};
+
+export const getPostById = id => {
+  const options = {
+    method: 'GET',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/posts/${id}`, options);
+};
+
+export const deleteViewer = () => {
+  const options = {
+    method: 'DELETE',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/viewer/delete`, options);
+};
+
+export const deletePost = id => {
+  const options = {
+    method: 'DELETE',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/posts/${id}`, options);
+};
+
+export const updatePost = ({ content, title, postId }) => {
+  const options = {
+    method: 'PUT',
+    credentials: 'include',
+    headers: requestHeaders,
+    body: JSON.stringify({ content, title }),
+  };
+
+  return fetch(`${SERVER_PATH}/api/posts/${postId}`, options);
+};
+
+export const savePost = ({ content, title }) => {
+  const options = {
+    method: 'POST',
+    credentials: 'include',
+    headers: requestHeaders,
+    body: JSON.stringify({ content, title }),
+  };
+
+  return fetch(`${SERVER_PATH}/api/posts`, options);
+};
+
+export const getAllUsers = () => {
+  const options = {
+    method: 'GET',
+    headers: requestHeaders,
+    credentials: 'include',
+  };
+
+  return fetch(`${SERVER_PATH}/api/users`, options);
+};
+
+export const login = ({ username, password }) => {
   const options = {
     method: 'POST',
     headers: requestHeaders,
     credentials: 'include',
-    body: JSON.stringify({
-      postId,
-      content,
-    }),
+    body: JSON.stringify({ username: username.toLowerCase(), password }),
   };
 
-  return fetch(`${Constants.routes.api}/comments`, options);
+  return fetch(`${SERVER_PATH}/api/login`, options);
 };
 
-export const logOut = () => {
+export const logout = () => {
   const options = {
     method: 'POST',
     credentials: 'include',
     headers: requestHeaders,
   };
 
-  return fetch(`${Constants.routes.api}/logout`, options);
+  return fetch(`${SERVER_PATH}/api/logout`, options);
 };
 
-export const logIn = ({ username, password }) => {
+export const signup = ({ username, password, verify }) => {
   const options = {
     method: 'POST',
     headers: requestHeaders,
@@ -86,27 +168,9 @@ export const logIn = ({ username, password }) => {
     body: JSON.stringify({
       username: username.toLowerCase(),
       password,
+      verify,
     }),
   };
 
-  return fetch(`${Constants.routes.api}/login`, options);
-};
-
-export const signUp = ({ username, password, confirm }) => {
-  const options = {
-    method: 'POST',
-    headers: requestHeaders,
-    credentials: 'include',
-    body: JSON.stringify({
-      username: username.toLowerCase(),
-      password: password,
-      verify: confirm,
-    }),
-  };
-
-  return fetch(`${Constants.routes.api}/signup`, options);
-};
-
-export const checkAuth = () => {
-  return fetch(`${Constants.routes.api}/authenticated`);
+  return fetch(`${SERVER_PATH}/api/signup`, options);
 };

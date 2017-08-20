@@ -88,7 +88,7 @@ class PostScreen extends React.Component {
         {
           text: 'OK',
           onPress: async () => {
-            await HTTP.postDelete({ postId });
+            await HTTP.deletePost(postId);
             this.props.navigation.navigate('posts');
           },
         },
@@ -105,7 +105,7 @@ class PostScreen extends React.Component {
       ? this.state.post.id
       : this.props.navigation.state.params.id;
 
-    const response = await HTTP.postById({ id });
+    const response = await HTTP.getPostById(id);
     const post = await response.json();
 
     this.setState({
@@ -119,7 +119,7 @@ class PostScreen extends React.Component {
   };
 
   _handleSubmit = async () => {
-    await HTTP.commentPublish({
+    await HTTP.saveComment({
       postId: this.state.post.id,
       content: this.state.comment,
     });
@@ -176,7 +176,7 @@ class PostScreen extends React.Component {
                     })
                     .map(c => {
                       const isYours =
-                        isAuthenticated && c.User.id === this.props.viewer.id;
+                        isAuthenticated && c.user.id === this.props.viewer.id;
 
                       return (
                         <CommentListItem

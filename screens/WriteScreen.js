@@ -67,7 +67,7 @@ class WriteScreen extends React.Component {
     this.refs.title.blur();
     this.refs.content.blur();
 
-    const response = await HTTP.postPublish({
+    const response = await HTTP.savePost({
       content: this.state.content,
       title: this.state.title,
     });

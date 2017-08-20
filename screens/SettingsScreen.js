@@ -39,8 +39,8 @@ class SettingsScreen extends React.Component {
 
   _handleLogOut = async () => {
     this.props.dispatch(
-      Actions.logOut({
-        navigation: this.props.navigation,
+      Actions.requestLogout({
+        isNative: true,
       })
     );
   };
