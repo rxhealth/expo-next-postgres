@@ -11,6 +11,10 @@ export default class CommentListItem extends React.PureComponent {
     this.props.navigation.navigate('post', { id: postId });
   };
 
+  _handleReply = comment => {
+    this.props.navigation.navigate('reply', { comment });
+  };
+
   _handleDeleteComment = async ({ commentId, postId }) => {
     Alert.alert(
       'Are you sure?',
@@ -31,6 +35,7 @@ export default class CommentListItem extends React.PureComponent {
   render() {
     const { isYours, isOnPost, isLast, comment } = this.props;
     const buttons = [];
+    console.log(comment.replies);
 
     if (!isOnPost) {
       buttons.push({
@@ -68,8 +73,22 @@ export default class CommentListItem extends React.PureComponent {
         right={buttons.length ? buttons : undefined}>
         <View style={isLast ? styles.itemBorderless : styles.item}>
           <Text style={styles.content}>
-            {Strings.elide(comment.content, 140)}
+            {comment.content}
           </Text>
+
+          {comment.replies.map((c, index) => {
+            return (
+              <View key={`${c.content}-${index}`}>
+                <Text>{c.user.username} {Strings.toDate(c.createdAt)}</Text>
+                <Text>{c.content}</Text>
+              </View>
+            );
+          })}
+
+          <View style={styles.action}>
+            <Text onPress={() => this._handleReply(comment)}>Reply</Text>
+          </View>
+
           <Text style={styles.lockup}>
             💬 by
             {' '}
@@ -104,6 +123,10 @@ const styles = StyleSheet.create({
   },
   itemBorderless: {
     ...commentItemBaseStyles,
+  },
+  action: {
+    padding: 16,
+    justifyContent: 'flex-end',
   },
   button: {
     flex: 1,
