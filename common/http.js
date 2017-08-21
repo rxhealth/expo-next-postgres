@@ -3,10 +3,7 @@ const requestHeaders = {
   'Content-Type': 'application/json',
 };
 
-const ENV = process.env.NODE_ENV || 'development';
-const SERVER_PATH = ENV === 'development'
-  ? 'https://7b85987e.ngrok.io'
-  : 'https://next-postgres.herokuapp.com';
+const SERVER_PATH = 'https://next-postgres.herokuapp.com';
 
 export const getAllComments = () => {
   const options = {
