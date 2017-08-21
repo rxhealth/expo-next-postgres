@@ -175,17 +175,15 @@ class PostScreen extends React.Component {
                       return !c.commentId;
                     })
                     .map(c => {
-                      const isYours =
-                        isAuthenticated && c.user.id === this.props.viewer.id;
-
                       return (
                         <CommentListItem
-                          key={c.id}
-                          isYours={isYours}
                           comment={c}
+                          key={c.id}
+                          viewer={this.props.viewer}
                           navigation={this.props.navigation}
-                          onRefresh={this._handleGetData}
                           isOnPost
+                          isAuthenticated={isAuthenticated}
+                          onRefresh={this._handleGetData}
                         />
                       );
                     })

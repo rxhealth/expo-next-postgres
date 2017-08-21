@@ -10,6 +10,7 @@ import {
 
 import FluidButton from '../components/FluidButton';
 import HeaderButton from '../components/HeaderButton';
+import CommentListItemBody from '../components/CommentListItemBody';
 
 import { withAuth } from '../higher-order/withAuth';
 
@@ -68,8 +69,8 @@ class ReplyScreen extends React.Component {
 
     const response = await HTTP.saveReply({
       content: this.state.content,
-      commentId: comment.id,
-      postId: comment.post.id,
+      commentId: comment.commentId ? comment.commentId : comment.id,
+      postId: comment.postId,
     });
 
     if (response.status === 200) {
@@ -78,7 +79,7 @@ class ReplyScreen extends React.Component {
         contentHeight: undefined,
       });
 
-      this.props.navigation.navigate('post', { id: comment.post.id });
+      this.props.navigation.navigate('post', { id: comment.postId });
     }
   };
 
@@ -94,11 +95,21 @@ class ReplyScreen extends React.Component {
   };
 
   render() {
+    const { comment } = this.props.navigation.state.params;
     const { content } = this.state;
-    console.log(this.props);
 
     return (
       <ScrollView style={styles.scrollContainer}>
+        <View style={styles.top}>
+          <View style={styles.previousComment}>
+            <Text style={styles.previousCommentTitle}>In response to:</Text>
+            <CommentListItemBody
+              content={comment.content}
+              createdAt={comment.createdAt}
+              username={comment.user.username}
+            />
+          </View>
+        </View>
         <TextInput
           underlineColorAndroid="transparent"
           autoCorrect={false}
@@ -119,32 +130,28 @@ class ReplyScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  emptyContainer: {
-    backgroundColor: Constants.colors.background,
-    flex: 1,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   scrollContainer: {
     backgroundColor: Constants.colors.background,
     flex: 1,
+  },
+  top: {
+    padding: 16,
+  },
+  previousComment: {
+    borderColor: Constants.colors.border,
+    borderWidth: 1,
+    padding: 16,
+    borderRadius: 4,
+  },
+  previousCommentTitle: {
+    marginBottom: 8,
+    fontSize: 12,
+    fontWeight: '600',
   },
   text: {
     fontSize: 16,
     textAlignVertical: 'center',
     textAlign: 'center',
-  },
-  bold: {
-    fontWeight: '600',
-  },
-  container: {
-    backgroundColor: Constants.colors.background,
-    flex: 1,
-  },
-  actions: {
-    marginTop: 16,
-    width: '100%',
   },
   contentInput: {
     flex: 1,
