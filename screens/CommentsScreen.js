@@ -55,14 +55,14 @@ class CommentsScreen extends React.Component {
     return (
       <ScrollView style={styles.container} refreshControl={refreshControl}>
         {comments.map((c, index) => {
-          const isYours = isAuthenticated && c.user.id === viewer.id;
           const isLast = index === comments.length - 1;
 
           return (
             <CommentListItem
               key={c.id}
               isLast={isLast}
-              isYours={isYours}
+              isAuthenticated={this.props.isAuthenticated}
+              viewer={viewer}
               navigation={this.props.navigation}
               onRefresh={this._handleGetData}
               comment={c}
