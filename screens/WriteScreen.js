@@ -76,9 +76,7 @@ class WriteScreen extends React.Component {
     if (response.status === 200) {
       this.setState({
         title: '',
-        titleHeight: undefined,
         content: '',
-        contentHeight: undefined,
       });
 
       this.props.navigation.navigate('posts');
@@ -95,20 +93,6 @@ class WriteScreen extends React.Component {
 
   _handleChangeContent = content => {
     this.setState({ content });
-  };
-
-  _handleSaveTitleHeight = ({ nativeEvent }) => {
-    const { height } = nativeEvent.contentSize;
-    this.setState({
-      titleHeight: height + 10,
-    });
-  };
-
-  _handleSaveContentHeight = ({ nativeEvent }) => {
-    const { height } = nativeEvent.contentSize;
-    this.setState({
-      contentHeight: height + 10,
-    });
   };
 
   render() {
@@ -141,28 +125,20 @@ class WriteScreen extends React.Component {
           underlineColorAndroid="transparent"
           autoCorrect={false}
           ref="title"
-          style={[
-            styles.titleInput,
-            { height: Math.max(40, this.state.titleHeight) },
-          ]}
+          style={styles.titleInput}
           value={this.state.title}
           placeholder="Title"
           onChangeText={this._handleChangeTitle}
-          onContentSizeChange={this._handleSaveTitleHeight}
           multiline
         />
         <TextInput
           underlineColorAndroid="transparent"
           autoCorrect={false}
           ref="content"
-          style={[
-            styles.contentInput,
-            { height: Math.max(40, this.state.contentHeight) },
-          ]}
+          style={styles.contentInput}
           value={this.state.content}
           placeholder="Start writing..."
           onChangeText={this._handleChangeContent}
-          onContentSizeChange={this._handleSaveContentHeight}
           multiline
         />
       </ScrollView>

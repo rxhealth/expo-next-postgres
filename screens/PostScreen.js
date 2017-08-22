@@ -13,6 +13,7 @@ import {
 import CommentListItem from '../components/CommentListItem';
 import HeaderButton from '../components/HeaderButton';
 import FluidButton from '../components/FluidButton';
+import AutoExpandingTextInput from '../components/AutoExpandingTextInput';
 
 import { withAuth } from '../higher-order/withAuth';
 
@@ -193,7 +194,7 @@ class PostScreen extends React.Component {
 
         {isAuthenticated
           ? <View style={styles.responseContainer}>
-              <TextInput
+              <AutoExpandingTextInput
                 autoCorrect={false}
                 underlineColorAndroid="transparent"
                 multiline

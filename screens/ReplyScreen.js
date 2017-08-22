@@ -11,6 +11,7 @@ import {
 import FluidButton from '../components/FluidButton';
 import HeaderButton from '../components/HeaderButton';
 import CommentListItemBody from '../components/CommentListItemBody';
+import AutoExpandingTextInput from '../components/AutoExpandingTextInput';
 
 import { withAuth } from '../higher-order/withAuth';
 
@@ -76,7 +77,6 @@ class ReplyScreen extends React.Component {
     if (response.status === 200) {
       this.setState({
         content: '',
-        contentHeight: undefined,
       });
 
       this.props.navigation.navigate('post', { id: comment.postId });
@@ -85,13 +85,6 @@ class ReplyScreen extends React.Component {
 
   _handleChangeContent = content => {
     this.setState({ content });
-  };
-
-  _handleSaveContentHeight = ({ nativeEvent }) => {
-    const { height } = nativeEvent.contentSize;
-    this.setState({
-      contentHeight: height + 10,
-    });
   };
 
   render() {
@@ -110,18 +103,14 @@ class ReplyScreen extends React.Component {
             />
           </View>
         </View>
-        <TextInput
+        <AutoExpandingTextInput
           underlineColorAndroid="transparent"
           autoCorrect={false}
           ref="content"
-          style={[
-            styles.contentInput,
-            { height: Math.max(40, this.state.contentHeight) },
-          ]}
+          style={styles.contentInput}
           value={this.state.content}
           placeholder="Start writing..."
           onChangeText={this._handleChangeContent}
-          onContentSizeChange={this._handleSaveContentHeight}
           multiline
         />
       </ScrollView>
